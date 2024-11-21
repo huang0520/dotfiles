@@ -1,0 +1,17 @@
+# Source the system-wide profile to load system environment variables
+if [ -f /etc/profile ]; then
+    . /etc/profile
+fi
+
+# Set user's private bin
+if [ -d "$HOME/bin" ] ; then
+  PATH="$HOME/bin:$PATH"
+fi
+
+if [ -d "$HOME/.local/bin" ] ; then
+  PATH="$HOME/.local/bin:$PATH"
+fi
+
+# Set ssh agent
+eval $(ssh-agent -s)
+ssh-add $HOME/.ssh/id_ed25519-github

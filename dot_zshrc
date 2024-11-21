@@ -1,0 +1,103 @@
+# Set the zinit directory
+ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+
+# Download zinit if not exist
+if [ ! -d "$ZINIT_HOME" ]; then
+  mkdir -p "$(dirname $ZINIT_HOME)"
+  git clone https://github.com/zdharma-continuum/zinit.git $ZINIT_HOME
+fi
+
+# Source/Load zinit
+source "$ZINIT_HOME/zinit.zsh" \
+  && autoload -Uz _zinit \
+  && (( ${+_comps} )) \
+  && _comps[zinit]=_zinit
+
+zi fpath -f "$HOME/.zfunc"
+  
+# OH-MY-POSH Prompt
+zi lucid for \
+    as"command" from"gh-r" \
+    if"[[ "$TERM_PROGRAM"!="Apple_Terminal" ]]" \
+    mv"posh-* -> oh-my-posh" \
+    atclone"./oh-my-posh init zsh --config $HOME/.config/oh-my-posh/my.toml > init.zsh; ./oh-my-posh completion zsh > _oh-my-posh" \
+    atpull"%atclone" \
+    src"init.zsh" \
+  light-mode jandedobbeleer/oh-my-posh
+
+# Install program as plugin
+zi wait lucid light-mode depth=1 for \
+    as"command" from"gh-r" \
+    atload"source <(fzf --zsh)" \
+  junegunn/fzf \
+  Aloxaf/fzf-tab
+
+zi wait lucid light-mode depth=1 for \
+    as"command" from"gh-r" \
+  ajeetdsouza/zoxide \
+    atinit"ZOXIDE_CMD_OVERRIDE=cd" \
+  OMZP::zoxide
+ 
+# History load first incase later plugin needed
+zi lucid for \
+    atinit"HIST_STAMPS=dd.mm.yyyy" \
+  OMZL::history.zsh
+
+
+zi wait lucid light-mode for \
+  OMZP::git \
+  OMZP::sudo \
+  OMZP::command-not-found \
+  OMZP::nvm \
+  OMZP::poetry-env \
+
+zi wait lucid light-mode for \
+  djui/alias-tips \
+  hlissner/zsh-autopair \
+  thuandt/zsh-pipx
+  
+
+# Suggestion
+zi wait lucid for \
+    light-mode atload"_zsh_autosuggest_start" \
+  zsh-users/zsh-autosuggestions
+
+# Highlighting
+zi wait lucid for \
+    light-mode atinit"
+      typeset -gA FAST_HIGHLIGHT; 
+      FAST_HIGHLIGHT[git-cmsg-len]=100" \
+  zdharma-continuum/fast-syntax-highlighting
+
+# Completions
+zi wait lucid for \
+    atpull'zinit creinstall -q .' \
+    atload"zicompinit; zicdreplay" \
+    blockf light-mode \
+  zsh-users/zsh-completions
+ 
+# Completion styling
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+zstyle ':completion:*' menu no
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
+zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
+
+# Add keybinding
+bindkey -e
+bindkey '^p' history-search-backward
+bindkey '^n' history-search-forward
+bindkey ',' autosuggest-accept
+
+# Add aliases
+zi ice wait lucid
+source $HOME/.aliases    
+
+# Pyenv initialize
+[[ -z "$PYENV_HOME" ]] && export PYENV_HOME="$HOME/.pyenv"
+export PATH="$PYENV_HOME/bin:$PATH"
+
+zi ice wait lucid
+eval "$(pyenv init --path)"
+zi ice wait lucid
+eval "$(pyenv init - --no-rehash zsh)"
