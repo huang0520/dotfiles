@@ -9,3 +9,5 @@ else
   echo "Not detect uv!"
 
 fi
+
+uv tool upgrade --all

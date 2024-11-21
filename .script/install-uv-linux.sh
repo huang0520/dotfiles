@@ -8,8 +8,6 @@ else
   curl -LsSf https://astral.sh/uv/install.sh | sh
 fi
 
-# Update completions
-echo "update uv and uvx completions..."
+echo "generate completion for uv..."
 mkdir -p ~/.zfunc
 uv generate-shell-completion zsh > ~/.zfunc/_uv
-uvx generate-shell-completion zsh > ~/.zfunc/_uvx
