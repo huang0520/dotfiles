@@ -1,0 +1,39 @@
+[use-grammars]
+only = [
+  "rust", "c", "cpp", "python", "toml", "json", "yaml", "bash", "comment"
+]
+
+[language-server.pyright]
+command = "pyright-langserver"
+args = ["--stdio"]
+config = {}
+
+
+[language-server.ruff]
+command = "ruff"
+args = ["server", "--preview", "-q"]
+
+[[language]]
+name = "toml"
+auto-format = true
+formatter = { command = "taplo", args = ["fmt", "-"] }
+
+[[language]]
+name = "python"
+language-servers = [ 
+  {name="pyright", except-features = ["rename-symbol"]},
+  "ruff",
+  {name = "pylsp", only-features = ["code-action", "rename-symbol"]},
+]
+formatter = { command = "ruff", args = ["format", "-"]}
+auto-format = true
+roots = ["setup.py", "pyproject.toml"]
+
+[language-server.pylsp.config.pylsp.plugins]
+flake8 = {enabled = false}
+autopep8 = {enabled = false}
+mccabe = {enabled = false}
+pycodestyle = {enabled = false}
+pyflakes = {enabled = false}
+pylint = {enabled = false}
+yapf = {enabled = false}

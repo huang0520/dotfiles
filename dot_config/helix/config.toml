@@ -1,0 +1,50 @@
+theme="catppuccin_mocha_transparent"
+
+[editor]
+bufferline = "multiple"
+cursorline = true
+line-number = "relative"
+rulers = [88, 120]
+true-color = true
+color-modes = true
+auto-save = true
+
+[editor.cursor-shape]
+insert = "bar"
+normal = "block"
+select = "underline"
+
+[editor.indent-guides]
+character = "╎"
+render = true
+
+[editor.lsp]
+auto-signature-help = false
+display-messages = true
+
+[editor.whitespace.render]
+tab = "all"
+
+[editor.statusline]
+left = ["mode", "spinner", "version-control", "file-name"]
+
+[keys.normal]
+"A-x" = "extend_to_line_bounds"
+"X" = "extend_line_above"
+"A-/" = "toggle_comments"
+"C-x" = ":buffer-close"
+"C-s" = ":w"
+"C-j" = "save_selection"
+ 
+[keys.select]
+"A-x" = "extend_to_line_bounds"
+"X" = "extend_line_above"
+"C-s" = ":w"
+
+[keys.insert]
+j = { j = "normal_mode" } # Maps "jj" to exit insert mode
+
+[keys.normal.z]
+# View mode
+"C-j" = "page_down"
+"C-k" = "page_up"
