@@ -64,6 +64,12 @@ zi ice wait lucid
 zi ice wait lucid
   eval "$(pyenv init -)"
 
+# uv completions
+zi ice wait lucid
+	echo 'eval "$(uv generate-shell-completion zsh)"'
+zi ice wait lucid
+	echo 'eval "$(uvx --generate-shell-completion zsh)"'
+
 # Suggestion
 zi wait lucid for \
     light-mode atload"_zsh_autosuggest_start" \

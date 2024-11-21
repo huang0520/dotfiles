@@ -1,3 +1,4 @@
+{{ if eq .chezmoi.os "linux" -}}
 #!/bin/bash
 
 # Check if pipx is installed
@@ -11,5 +12,14 @@ else
   python3 -m pip install --user pipx
 fi
 
-echo "Operation completed successfully!"
+{{ else if eq .chezmoi.os "darwin" -}}
+#!/bin/zsh
 
+brew install pipx
+
+{{ end -}}
+
+echo "install pipx packages..."
+source $(~/.local/bin/chezmoi source-path)/.default_install_pkg/pipx.sh
+
+echo "Operation completed successfully!"
