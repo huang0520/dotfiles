@@ -43,7 +43,6 @@ zi lucid for \
     atinit"HIST_STAMPS=dd.mm.yyyy" \
   OMZL::history.zsh
 
-
 zi wait lucid light-mode for \
   OMZP::git \
   OMZP::sudo \
@@ -66,9 +65,9 @@ zi ice wait lucid
 
 # uv completions
 zi ice wait lucid
-	echo 'eval "$(uv generate-shell-completion zsh)"'
+	eval "$(uv generate-shell-completion zsh)"
 zi ice wait lucid
-	echo 'eval "$(uvx --generate-shell-completion zsh)"'
+	eval "$(uvx --generate-shell-completion zsh)"
 
 # Suggestion
 zi wait lucid for \
