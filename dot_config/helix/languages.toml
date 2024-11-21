@@ -4,9 +4,11 @@ only = [
 ]
 
 [language-server.pyright]
-command = "pyright-langserver"
+command = "basedpyright-langserver"
 args = ["--stdio"]
-config = {}
+
+[language-server.basedpyright.config]
+basedpyright.disableOrganizeImports = true
 
 
 [language-server.ruff]
@@ -21,9 +23,10 @@ formatter = { command = "taplo", args = ["fmt", "-"] }
 [[language]]
 name = "python"
 language-servers = [ 
-  {name="pyright", except-features = ["rename-symbol"]},
+  # {name="pyright", except-features = ["rename-symbol"]},
+  "pyright",
   "ruff",
-  {name = "pylsp", only-features = ["code-action", "rename-symbol"]},
+  # {name = "pylsp", only-features = ["code-action", "rename-symbol"]},
 ]
 formatter = { command = "ruff", args = ["format", "-"]}
 auto-format = true

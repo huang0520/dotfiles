@@ -47,13 +47,10 @@ zi wait lucid light-mode for \
   OMZP::git \
   OMZP::sudo \
   OMZP::command-not-found \
-  OMZP::nvm \
-  OMZP::poetry-env \
 
 zi wait lucid light-mode for \
   djui/alias-tips \
-  hlissner/zsh-autopair \
-  thuandt/zsh-pipx
+  hlissner/zsh-autopair
   
 # Suggestion
 zi wait lucid for \
@@ -90,11 +87,3 @@ bindkey ',' autosuggest-accept
 # Add aliases
 zi ice wait lucid
 source $HOME/.aliases    
-
-# Pyenv initialize
-[[ -z "$PYENV_HOME" ]] && export PYENV_HOME="$HOME/.pyenv"
-export PATH="$PYENV_HOME/bin:$PATH"
-zi ice wait lucid
-  eval "$(pyenv init --path)"
-zi ice wait lucid
-  eval "$(pyenv init -)"

@@ -22,6 +22,9 @@ fi
 
 {{ end -}}
 
-
+echo "Update uv completion..."
+mkdir -p ~/.zfunc
+uv generate-shell-completion zsh > ~/.zfunc/_uv
+uvx --generate-shell-completion zsh > ~/.zfunc/_uvx
 
 echo "Install/upgrade uv successfully!"

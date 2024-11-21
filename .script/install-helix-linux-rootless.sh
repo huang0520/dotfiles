@@ -1,4 +1,3 @@
-{{ if eq .chezmoi.os "linux" -}}
 #!/bin/bash
 
 # GitHub repo URL
@@ -163,10 +162,3 @@ echo "Cleaning up..."
 rm -rf "$FILENAME" "$EXTRACTED_DIR"
 
 echo "Helix updated successfully to version $LATEST_VERSION_RAW!"
-
-{{ else if eq .chezmoi.os "darwin" -}}
-#!/bin/zsh
-
-brew install helix
-
-{{ end -}}
