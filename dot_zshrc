@@ -56,6 +56,13 @@ zi wait lucid light-mode for \
   hlissner/zsh-autopair \
   thuandt/zsh-pipx
   
+# Pyenv initialize
+[[ -z "$PYENV_HOME" ]] && export PYENV_HOME="$HOME/.pyenv"
+export PATH="$PYENV_HOME/bin:$PATH"
+zi ice wait lucid
+  eval "$(pyenv init --path)"
+zi ice wait lucid
+  eval "$(pyenv init -)"
 
 # Suggestion
 zi wait lucid for \
@@ -93,11 +100,3 @@ bindkey ',' autosuggest-accept
 zi ice wait lucid
 source $HOME/.aliases    
 
-# Pyenv initialize
-[[ -z "$PYENV_HOME" ]] && export PYENV_HOME="$HOME/.pyenv"
-export PATH="$PYENV_HOME/bin:$PATH"
-
-zi ice wait lucid
-eval "$(pyenv init --path)"
-zi ice wait lucid
-eval "$(pyenv init - --no-rehash zsh)"
