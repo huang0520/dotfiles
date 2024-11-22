@@ -1,0 +1,15 @@
+#!/bin/bash
+
+if command -v sheldon &> /dev/null; then
+    echo "sheldon has already installed."
+else
+{{- if and (eq .chezmoi.os "linux") }}
+    echo "install sheldon..."
+    curl --proto '=https' -fLsS https://rossmacarthur.github.io/install/crate.sh \
+        | bash -s -- --repo rossmacarthur/sheldon --to ~/.local/bin
+{{- else if and (eq .chezmoi.os "darwin") }}
+    brew install sheldon
+{{- end }}
+    sheldon init --shell zsh
+fi
+
