@@ -1,16 +1,16 @@
 #!/bin/bash
 
 {{ if and (eq .chezmoi.os "linux") (eq .chezmoi.hostname "sclab-56" "sclab-148" "sclab-187" "sclab-232" "sclab-235") -}}
-~/.local/share/chezmoi/.script/install-helix-linux-rootless.sh
-~/.local/share/chezmoi/.script/install-uv-linux.sh
+$(chezmoi source-path)/.script/install-helix-linux-rootless.sh
+$(chezmoi source-path)/.script/install-uv-linux.sh
 
 {{ else if eq .chezmoi.os "linux" -}}
-~/.local/share/chezmoi/.script/install-helix-linux.sh
-~/.local/share/chezmoi/.script/install-uv-linux.sh
+$(chezmoi source-path)/.script/install-helix-linux.sh
+$(chezmoi source-path)/.script/install-uv-linux.sh
 
 {{ else if eq .chezmoi.os "darwin" -}}
-~/.local/share/chezmoi/.script/install-helix-darwin.sh
-~/.local/share/chezmoi/.script/install-uv-darwin.sh
+$(chezmoi source-path)/.script/install-helix-darwin.sh
+$(chezmoi source-path)/.script/install-uv-darwin.sh
 
 {{ end -}}
 

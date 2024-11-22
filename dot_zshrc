@@ -1,76 +1,27 @@
-# Set the zinit directory
-ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+# Env variable
+export ZSH="$HOME/.local/share/sheldon/repos/github.com/ohmyzsh/ohmyzsh"
+export HIST_STAMPS=dd.mm.yyyy
 
-# Download zinit if not exist
-if [ ! -d "$ZINIT_HOME" ]; then
-  mkdir -p "$(dirname $ZINIT_HOME)"
-  git clone https://github.com/zdharma-continuum/zinit.git $ZINIT_HOME
-fi
+# Load sheldon
+eval "$(sheldon source)"
 
-# Source/Load zinit
-source "$ZINIT_HOME/zinit.zsh" \
-  && autoload -Uz _zinit \
-  && (( ${+_comps} )) \
-  && _comps[zinit]=_zinit
+fpath=( $HOME/.zfunc $fpath)
 
-zi fpath -f "$HOME/.zfunc"
-  
-# OH-MY-POSH Prompt
-zi lucid for \
-    as"command" from"gh-r" \
-    if"[[ "$TERM_PROGRAM"!="Apple_Terminal" ]]" \
-    mv"posh-* -> oh-my-posh" \
-    atclone"./oh-my-posh init zsh --config $HOME/.config/oh-my-posh/my.toml > init.zsh; ./oh-my-posh completion zsh > _oh-my-posh" \
-    atpull"%atclone" \
-    src"init.zsh" \
-  light-mode jandedobbeleer/oh-my-posh
+source $HOME/.aliases    
 
-# Install program as plugin
-zi wait lucid light-mode depth=1 for \
-    as"command" from"gh-r" \
-    atload"source <(fzf --zsh)" \
-  junegunn/fzf \
-  Aloxaf/fzf-tab
+# Pure prompt style
+zstyle :prompt:pure:git:stash show yes
+zstyle :prompt:pure:user color '#89B4FA'
+zstyle :prompt:pure:host color '#89B4FA'
+zstyle :prompt:pure:path color '#F5C2E7'
+zstyle :prompt:pure:git:arrow color '#B4BEFE'
+zstyle :prompt:pure:git:stash color '#B4BEFE'
+zstyle :prompt:pure:git:branch color '#B4BEFE'
+zstyle :prompt:pure:git:action color '#B4BEFE'
+zstyle :prompt:pure:git:dirty color '#B4BEFE'
+zstyle :prompt:pure:prompt:continuation color '#89B4FA'
+zstyle :prompt:pure:virtualenv color '#89B4FA'
 
-zi wait lucid light-mode depth=1 for \
-    as"command" from"gh-r" \
-  ajeetdsouza/zoxide \
-    atinit"ZOXIDE_CMD_OVERRIDE=cd" \
-  OMZP::zoxide
- 
-# History load first incase later plugin needed
-zi lucid for \
-    atinit"HIST_STAMPS=dd.mm.yyyy" \
-  OMZL::history.zsh
-
-zi wait lucid light-mode for \
-  OMZP::git \
-  OMZP::sudo \
-  OMZP::command-not-found \
-
-zi wait lucid light-mode for \
-  djui/alias-tips \
-  hlissner/zsh-autopair
-  
-# Suggestion
-zi wait lucid for \
-    light-mode atload"_zsh_autosuggest_start" \
-  zsh-users/zsh-autosuggestions
-
-# Highlighting
-zi wait lucid for \
-    light-mode atinit"
-      typeset -gA FAST_HIGHLIGHT; 
-      FAST_HIGHLIGHT[git-cmsg-len]=100" \
-  zdharma-continuum/fast-syntax-highlighting
-
-# Completions
-zi wait lucid for \
-    atpull'zinit creinstall -q .' \
-    atload"zicompinit; zicdreplay" \
-    blockf light-mode \
-  zsh-users/zsh-completions
- 
 # Completion styling
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
@@ -84,6 +35,66 @@ bindkey '^p' history-search-backward
 bindkey '^n' history-search-forward
 bindkey ',' autosuggest-accept
 
-# Add aliases
-zi ice wait lucid
-source $HOME/.aliases    
+# # Install program as plugin
+# zi wait lucid light-mode depth=1 for \
+#     as"command" from"gh-r" \
+#     atload"source <(fzf --zsh)" \
+#   junegunn/fzf \
+#   Aloxaf/fzf-tab
+
+# zi wait lucid light-mode depth=1 for \
+#     as"command" from"gh-r" \
+#   ajeetdsouza/zoxide \
+#     atinit"ZOXIDE_CMD_OVERRIDE=cd" \
+#   OMZP::zoxide
+ 
+# # History load first incase later plugin needed
+# zi lucid for \
+#     atinit"HIST_STAMPS=dd.mm.yyyy" \
+#   OMZL::history.zsh
+
+# zi wait lucid light-mode for \
+#   OMZP::git \
+#   OMZP::sudo \
+#   OMZP::command-not-found \
+
+# zi wait lucid light-mode for \
+#   djui/alias-tips \
+#   hlissner/zsh-autopair
+  
+# # Suggestion
+# zi wait lucid for \
+#     light-mode atload"_zsh_autosuggest_start" \
+#   zsh-users/zsh-autosuggestions
+
+# # Highlighting
+# zi wait lucid for \
+#     light-mode atinit"
+#       typeset -gA FAST_HIGHLIGHT; 
+#       FAST_HIGHLIGHT[git-cmsg-len]=100" \
+#   zdharma-continuum/fast-syntax-highlighting
+
+# # Completions
+# zi wait lucid for \
+#     atpull'zinit creinstall -q .' \
+#     atload"zicompinit; zicdreplay" \
+#     blockf light-mode \
+#   zsh-users/zsh-completions
+ 
+# # Completion styling
+# zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+# zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+# zstyle ':completion:*' menu no
+# zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
+# zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
+
+# # Add keybinding
+# bindkey -e
+# bindkey '^p' history-search-backward
+# bindkey '^n' history-search-forward
+# bindkey ',' autosuggest-accept
+
+# # Add aliases
+# zi ice wait lucid
+# source $HOME/.aliases    
+
