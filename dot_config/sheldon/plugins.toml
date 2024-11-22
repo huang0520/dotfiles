@@ -1,0 +1,52 @@
+shell = "zsh"
+apply = ["defer"]
+
+[plugins]
+
+[plugins.zsh-defer]
+github = "romkatv/zsh-defer"
+apply = ["source"]
+
+[plugins.compinit]
+inline = "autoload -Uz compinit && zsh-defer compinit"
+
+[plugins.pure]
+github = "sindresorhus/pure"
+use = ["async.zsh", "pure.zsh"]
+apply = ["fpath", "pure_init"]
+
+[plugins.fast-syntax-highlighting]
+github = "zdharma-continuum/fast-syntax-highlighting"
+
+[plugins.zsh-completions]
+github = "zsh-users/zsh-completions"
+
+[plugins.zsh-history-substring-search]
+github = "zsh-users/zsh-history-substring-search"
+apply = ["source", "defer"]
+
+[plugins.zsh-autosuggestions]
+github = "zsh-users/zsh-autosuggestions"
+apply = ["source", "defer"]
+
+[plugins.fzf]
+github = "junegunn/fzf"
+apply = ["fzf_init", "defer"]
+[plugins.fzf.hooks]
+post = "{{ dir }}/install > /dev/null"
+
+[plugins.fzf-tab]
+github = "Aloxaf/fzf-tab"
+apply = ["source"]
+
+[plugins.zoxide]
+github = "ajeetdsouza/zoxide"
+
+[plugins.alias-tips]
+github = "djui/alias-tips"
+
+[templates]
+defer = '{% for file in files %}zsh-defer source \"{{ file }}\"\n{% endfor %}'
+fpath = 'fpath=( "{{ dir }}" $fpath )'
+pure_init = 'autoload -U promptinit && promptinit && prompt pure'
+fzf_init = 'export PATH="{{ dir }}/bin:$PATH" && source <(fzf --zsh)'
